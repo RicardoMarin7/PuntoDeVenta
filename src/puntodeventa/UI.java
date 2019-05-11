@@ -5,6 +5,8 @@
  */
 package puntodeventa;
 
+import java.awt.Font;
+
 /**
  *
  * @author Ricardo Marin
@@ -79,10 +81,77 @@ public class UI extends javax.swing.JFrame {
         Productos.setForeground(new java.awt.Color(60, 38, 27));
         Productos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 12)); // NOI18N
 
+        TablaProductos.setAutoCreateRowSorter(true);
         TablaProductos.setBackground(new java.awt.Color(60, 38, 27));
         TablaProductos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
         TablaProductos.setForeground(new java.awt.Color(255, 255, 255));
         TablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre del Producto", "Precio", "Descripción"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaProductos.setGridColor(new java.awt.Color(60, 38, 27));
+        TablaProductos.setSelectionBackground(new java.awt.Color(78, 182, 172));
+        TablaProductos.setSelectionForeground(new java.awt.Color(60, 38, 27));
+        TablaProductos.getTableHeader().setResizingAllowed(false);
+        TablaProductos.getTableHeader().setReorderingAllowed(false);
+        Productos.setViewportView(TablaProductos);
+        if (TablaProductos.getColumnModel().getColumnCount() > 0) {
+            TablaProductos.getColumnModel().getColumn(0).setResizable(false);
+            TablaProductos.getColumnModel().getColumn(1).setResizable(false);
+            TablaProductos.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 610, 190));
+
+        Pedidos.setBackground(new java.awt.Color(60, 38, 27));
+        Pedidos.setForeground(new java.awt.Color(60, 38, 27));
+        Pedidos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 12)); // NOI18N
+
+        TablaPedidos.setBackground(new java.awt.Color(60, 38, 27));
+        TablaPedidos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        TablaPedidos.setForeground(new java.awt.Color(255, 255, 255));
+        TablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -109,70 +178,19 @@ public class UI extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Producto", "Precio"
+                "Nombre Pedido", "Pagado"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Boolean.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
-        });
-        TablaProductos.setGridColor(new java.awt.Color(60, 38, 27));
-        TablaProductos.setSelectionBackground(new java.awt.Color(78, 182, 172));
-        TablaProductos.setSelectionForeground(new java.awt.Color(60, 38, 27));
-        TablaProductos.getTableHeader().setResizingAllowed(false);
-        TablaProductos.getTableHeader().setReorderingAllowed(false);
-        Productos.setViewportView(TablaProductos);
-        if (TablaProductos.getColumnModel().getColumnCount() > 0) {
-            TablaProductos.getColumnModel().getColumn(0).setResizable(false);
-            TablaProductos.getColumnModel().getColumn(1).setResizable(false);
-        }
-
-        getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 610, 190));
-
-        Pedidos.setBackground(new java.awt.Color(60, 38, 27));
-        Pedidos.setForeground(new java.awt.Color(60, 38, 27));
-        Pedidos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 12)); // NOI18N
-
-        TablaPedidos.setBackground(new java.awt.Color(60, 38, 27));
-        TablaPedidos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
-        TablaPedidos.setForeground(new java.awt.Color(255, 255, 255));
-        TablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Pedidos"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -186,6 +204,7 @@ public class UI extends javax.swing.JFrame {
         Pedidos.setViewportView(TablaPedidos);
         if (TablaPedidos.getColumnModel().getColumnCount() > 0) {
             TablaPedidos.getColumnModel().getColumn(0).setResizable(false);
+            TablaPedidos.getColumnModel().getColumn(1).setResizable(false);
         }
 
         getContentPane().add(Pedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 210, 380));

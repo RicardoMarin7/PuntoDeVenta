@@ -5,6 +5,9 @@
  */
 package puntodeventa;
 
+import java.awt.Font;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ricardo Marin
@@ -17,6 +20,14 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        TextPrompt placeholder = new TextPrompt("Usuario",User);
+        placeholder.changeAlpha(0.75f);
+        placeholder.changeStyle(Font.ITALIC);
+        
+        TextPrompt placeholder2 = new TextPrompt("Contraseña",Password);
+        placeholder2.changeAlpha(0.75f);
+        placeholder2.changeStyle(Font.ITALIC);
     }
 
     /**
@@ -36,7 +47,6 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar Sesión");
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(850, 480));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -58,6 +68,11 @@ public class Login extends javax.swing.JFrame {
         Acceder.setForeground(new java.awt.Color(60, 38, 27));
         Acceder.setText("Acceder");
         Acceder.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(60, 38, 27), 2, true));
+        Acceder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AccederActionPerformed(evt);
+            }
+        });
         getContentPane().add(Acceder, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 90, 30));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
@@ -70,6 +85,20 @@ public class Login extends javax.swing.JFrame {
        Password.setEchoChar('•');
        obj.conectarBase();
     }//GEN-LAST:event_formWindowOpened
+
+    private void AccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccederActionPerformed
+       if(User.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "El campo usuario no puede estar vacío");
+       }
+       
+       else if(Password.getPassword().length==0){
+           JOptionPane.showMessageDialog(null, "El campo contraseña no puede estar vacio");
+       }
+       
+       else{
+           JOptionPane.showMessageDialog(null, Password.getText());
+       }
+    }//GEN-LAST:event_AccederActionPerformed
 
     /**
      * @param args the command line arguments

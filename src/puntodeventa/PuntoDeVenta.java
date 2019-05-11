@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package puntodeventa;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -15,22 +10,49 @@ public class PuntoDeVenta {
     public static String url = "jdbc:mysql://localhost/basepuntodeventa";
     public static String sql;
     
-     public boolean conectarBase()
-  {
-    boolean isError = false;
-    try
-    {
-      conexion = DriverManager.getConnection(url, "root", "");
-      if (conexion.isValid(0)) {
-        JOptionPane.showMessageDialog(null, "La conexion con la base fue exitosa");
+     public boolean conectarBase(){
+        boolean isError = false;
+        try{
+            conexion = DriverManager.getConnection(url, "root", "");
+            if (conexion.isValid(0)) {
+                JOptionPane.showMessageDialog(null, "La conexion con la base fue exitosa");
+            }
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en la conexion a la base de datos\n" + e);
+            isError = true;
+        }
+        return isError;
+    }
+     
+     public boolean iniciarSesion(String User, String Password){
+        String user="",pass=""; boolean login;
+        
+        sql = "SELECT * FROM `Usuarios` WHERE `usuarios`.`Nombre`=" +User+"";
+        try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            while (result.next()){
+                user = result.getNString(1);
+                pass = result.getNString(2);
+            }
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        if (){
+            Resultado = 0;
+            }
+        else {
+        Resultado = 2;
       }
     }
-    catch (SQLException e)
+    else
     {
-      JOptionPane.showMessageDialog(null, "Error en la conexion a la base de datos\n" + e);
-      isError = true;
+      Resultado = 1;
     }
-    return isError;
-  }
-    
+    return Resultado;
+  }   
+     
 }
