@@ -5,6 +5,7 @@
  */
 package puntodeventa;
 
+import Animacion.Fade;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     PuntoDeVenta obj = new PuntoDeVenta();
+    Fade transiciones = new Fade();
     /**
      * Creates new form Login
      */
@@ -96,7 +98,18 @@ public class Login extends javax.swing.JFrame {
        }
        
        else{
-           JOptionPane.showMessageDialog(null, Password.getText());
+           if(obj.iniciarSesion(User.getText(), Password.getText())){
+               Fade.JFrameFadeOut(1f, 0f, 0.05f, 20, this, Fade.HIDE);
+               UI ui = new UI();
+               ui.id_sesion=obj.sesionIniciada(User.getText(), Password.getText());
+               Fade.JFrameFadeIn(0f, 1f, 0.02f, 20, ui);
+               ui.setVisible(true);
+           }
+           
+           else{
+               JOptionPane.showMessageDialog(null, "Usuario o Contraseña Incorrectos");
+           }
+           
        }
     }//GEN-LAST:event_AccederActionPerformed
 

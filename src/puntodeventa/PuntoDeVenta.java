@@ -1,6 +1,9 @@
 package puntodeventa;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 /**
  *
  * @author Ricardo Marin
@@ -26,33 +29,166 @@ public class PuntoDeVenta {
     }
      
      public boolean iniciarSesion(String User, String Password){
-        String user="",pass=""; boolean login;
+        String user="",pass=""; boolean login = false;
         
-        sql = "SELECT * FROM `Usuarios` WHERE `usuarios`.`Nombre`=" +User+"";
+        sql = "SELECT * FROM `usuarios` WHERE `usuarios`.`Nombre` = '"+User+"'";
         try{
             PreparedStatement us = conexion.prepareStatement(sql);
             ResultSet result = us.executeQuery();
             while (result.next()){
-                user = result.getNString(1);
-                pass = result.getNString(2);
+                user = result.getString(2);
+                pass = result.getString(4);
             }
             result.close();
         }
         catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
-        if (){
-            Resultado = 0;
+        if (user.equals(User) && pass.equals(Password)){
+                login=true;
+                sesionIniciada(user,pass);
             }
         else {
-        Resultado = 2;
-      }
+            login = false;
+        }
+        
+        return login;
     }
-    else
-    {
-      Resultado = 1;
-    }
-    return Resultado;
-  }   
      
+     public int sesionIniciada(String User,String Password){
+         int id_sesion=0;
+         sql = "SELECT * FROM `usuarios` WHERE `usuarios`.`Nombre` = '"+User+"'";
+         try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            while (result.next()){
+                id_sesion = result.getInt(1);
+            }
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return id_sesion;
+
+     }
+     
+     public boolean isNumeric(String cadena){
+         boolean numeric = false;
+         try{
+             Integer.parseInt(cadena);
+             numeric = true;
+         }catch(NumberFormatException e){
+             numeric = false;
+         }
+         
+         return numeric;
+     }
+     
+     public boolean añadirProducto(String Nombre,String Precio){
+         boolean add=false;
+         sql = "INSERT INTO `productos` (`ID_Producto`, `Nombre_Producto`, `Precio`, `Descripcion`) VALUES (NULL,'"
+                 +Nombre+"','"+Precio+"')";
+         try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            us.executeUpdate();
+            add=true;
+         }catch(SQLException e){
+             JOptionPane.showMessageDialog(null, e);
+             add=false;
+         }
+         return add;
+     }
+     
+     public static TableModel consultarProductos(){
+        String[] columna = { "ID","Nombre del Producto", "Precio"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }          
+        };
+        try{
+            Object[] datos = new Object[3];
+            sql = "SELECT * FROM `productos`";
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            
+            while (result.next()){
+                for (int i = 0; i < 3; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return modelo;
+    }
+
+    public boolean modificarProducto(String ID,String Nombre, String Precio) {
+        boolean update = false;
+       sql = "UPDATE `productos` SET `Nombre_Producto` = '"+Nombre+"', `Precio` = '"+Precio+"' WHERE `productos`.`ID_Producto` ="+ID;
+        try{
+          PreparedStatement us = conexion.prepareStatement(sql);
+          us.executeUpdate();
+          update = true;
+        }
+        catch (SQLException e){
+          JOptionPane.showMessageDialog(null, e);
+          update = false;
+        }
+        return update;
+    }
+    
+    public static TableModel buscarProductos(String cadena){
+        String[] columna = { "ID","Nombre del Producto", "Precio"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }          
+        };
+        try{
+            Object[] datos = new Object[3];
+            sql = "SELECT * FROM `productos` WHERE `Nombre_Producto` LIKE '"+cadena+"%'";
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            
+            while (result.next()){
+                for (int i = 0; i < 3; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            System.out.println(e);
+        }
+        
+        return modelo;
+    }
+    
+    public static boolean borrarProducto(String ID) {
+        boolean update = false;
+        sql = "DELETE FROM `productos` WHERE `productos`.`ID_Producto` = "+ID;
+        try{
+          PreparedStatement us = conexion.prepareStatement(sql);
+          us.executeUpdate();
+          update = true;
+        }
+        catch (SQLException e){
+          JOptionPane.showMessageDialog(null, e);
+          update = false;
+        }
+        return update;
+    }
+        
 }

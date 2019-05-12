@@ -5,13 +5,16 @@
  */
 package puntodeventa;
 
+import Animacion.Fade;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Ricardo Marin
  */
 public class UI extends javax.swing.JFrame {
+    int id_sesion;
 
     /**
      * Creates new form UI
@@ -40,31 +43,46 @@ public class UI extends javax.swing.JFrame {
         TablaProductos = new javax.swing.JTable();
         Pedidos = new javax.swing.JScrollPane();
         TablaPedidos = new javax.swing.JTable();
+        Cerrar = new javax.swing.JLabel();
+        Minimizar = new javax.swing.JLabel();
         Barra = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         AñadirProducto.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         AñadirProducto.setForeground(new java.awt.Color(255, 255, 255));
         AñadirProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Agregar.png"))); // NOI18N
         AñadirProducto.setText("Productos");
-        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 120, -1));
+        AñadirProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AñadirProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AñadirProductoMouseClicked(evt);
+            }
+        });
+        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 120, -1));
 
         CancelarOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         CancelarOrden.setForeground(new java.awt.Color(255, 255, 255));
         CancelarOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
         CancelarOrden.setText("Cancelar Orden");
-        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 160, -1));
+        CancelarOrden.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 160, -1));
 
         NuevaOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         NuevaOrden.setForeground(new java.awt.Color(255, 255, 255));
         NuevaOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/orden.png"))); // NOI18N
         NuevaOrden.setText("Nueva Orden");
-        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, -1, -1));
+        NuevaOrden.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
 
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.jpeg"))); // NOI18N
         getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 50));
@@ -75,6 +93,11 @@ public class UI extends javax.swing.JFrame {
         BarraDeBusqueda.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 12)); // NOI18N
         BarraDeBusqueda.setForeground(new java.awt.Color(60, 38, 27));
         BarraDeBusqueda.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        BarraDeBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                BarraDeBusquedaKeyTyped(evt);
+            }
+        });
         getContentPane().add(BarraDeBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 60, 210, 20));
 
         Productos.setBackground(new java.awt.Color(60, 38, 27));
@@ -209,6 +232,28 @@ public class UI extends javax.swing.JFrame {
 
         getContentPane().add(Pedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 210, 380));
 
+        Cerrar.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        Cerrar.setForeground(new java.awt.Color(255, 255, 255));
+        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar.png"))); // NOI18N
+        Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, -1, 30));
+
+        Minimizar.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        Minimizar.setForeground(new java.awt.Color(255, 255, 255));
+        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/minimizar.png"))); // NOI18N
+        Minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MinimizarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(Minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, 30));
+
         Barra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barra.jpg"))); // NOI18N
         getContentPane().add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
@@ -217,6 +262,28 @@ public class UI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void AñadirProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AñadirProductoMouseClicked
+        Productos añadir = new Productos();
+        Fade.JFrameFadeIn(0f, 1f, 0.1f, 20, añadir);
+        añadir.setVisible(true);
+    }//GEN-LAST:event_AñadirProductoMouseClicked
+
+    private void CerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CerrarMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_CerrarMouseClicked
+
+    private void MinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MinimizarMouseClicked
+        this.setExtendedState(ICONIFIED);
+    }//GEN-LAST:event_MinimizarMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        TablaProductos.setModel(PuntoDeVenta.consultarProductos());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void BarraDeBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarraDeBusquedaKeyTyped
+        TablaProductos.setModel(PuntoDeVenta.buscarProductos(BarraDeBusqueda.getText()));
+    }//GEN-LAST:event_BarraDeBusquedaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -259,12 +326,14 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JTextField BarraDeBusqueda;
     private javax.swing.JLabel Busqueda;
     private javax.swing.JLabel CancelarOrden;
+    private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Fondo;
     private javax.swing.JLabel Logo;
+    private javax.swing.JLabel Minimizar;
     private javax.swing.JLabel NuevaOrden;
     private javax.swing.JScrollPane Pedidos;
     private javax.swing.JScrollPane Productos;
     private javax.swing.JTable TablaPedidos;
-    private javax.swing.JTable TablaProductos;
+    public static javax.swing.JTable TablaProductos;
     // End of variables declaration//GEN-END:variables
 }
