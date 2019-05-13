@@ -44,6 +44,9 @@ public class Login extends javax.swing.JFrame {
         User = new javax.swing.JTextField();
         Password = new javax.swing.JPasswordField();
         Acceder = new javax.swing.JButton();
+        Minimizar = new javax.swing.JLabel();
+        Cerrar = new javax.swing.JLabel();
+        Barra = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,6 +79,31 @@ public class Login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Acceder, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 90, 30));
+
+        Minimizar.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        Minimizar.setForeground(new java.awt.Color(255, 255, 255));
+        Minimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/minimizar.png"))); // NOI18N
+        Minimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Minimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MinimizarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(Minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, 30));
+
+        Cerrar.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        Cerrar.setForeground(new java.awt.Color(255, 255, 255));
+        Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar.png"))); // NOI18N
+        Cerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, -1, 30));
+
+        Barra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barra.jpg"))); // NOI18N
+        getContentPane().add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
         getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -112,6 +140,14 @@ public class Login extends javax.swing.JFrame {
            
        }
     }//GEN-LAST:event_AccederActionPerformed
+
+    private void MinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MinimizarMouseClicked
+        this.setExtendedState(ICONIFIED);
+    }//GEN-LAST:event_MinimizarMouseClicked
+
+    private void CerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CerrarMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_CerrarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -150,7 +186,10 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Acceder;
+    private javax.swing.JLabel Barra;
+    private javax.swing.JLabel Cerrar;
     private javax.swing.JLabel Fondo;
+    private javax.swing.JLabel Minimizar;
     private javax.swing.JPasswordField Password;
     private javax.swing.JTextField User;
     // End of variables declaration//GEN-END:variables

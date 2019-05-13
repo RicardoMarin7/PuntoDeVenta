@@ -33,8 +33,14 @@ public class UI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        MenuClickProductos = new javax.swing.JPopupMenu();
+        AñadirAOrden = new javax.swing.JMenuItem();
+        ProductosLB = new javax.swing.JLabel();
+        FilasOrdenes = new javax.swing.JScrollPane();
+        TablaFilasOrdenes = new javax.swing.JTable();
         AñadirProducto = new javax.swing.JLabel();
         CancelarOrden = new javax.swing.JLabel();
+        OrdenLB = new javax.swing.JLabel();
         NuevaOrden = new javax.swing.JLabel();
         Logo = new javax.swing.JLabel();
         Busqueda = new javax.swing.JLabel();
@@ -43,10 +49,31 @@ public class UI extends javax.swing.JFrame {
         TablaProductos = new javax.swing.JTable();
         Pedidos = new javax.swing.JScrollPane();
         TablaPedidos = new javax.swing.JTable();
+        OrdenesLB = new javax.swing.JLabel();
         Cerrar = new javax.swing.JLabel();
         Minimizar = new javax.swing.JLabel();
         Barra = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
+
+        MenuClickProductos.setBackground(new java.awt.Color(251, 177, 207));
+        MenuClickProductos.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        MenuClickProductos.setForeground(new java.awt.Color(60, 38, 27));
+        MenuClickProductos.setBorder(null);
+        MenuClickProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        AñadirAOrden.setBackground(new java.awt.Color(251, 177, 207));
+        AñadirAOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        AñadirAOrden.setForeground(new java.awt.Color(60, 38, 27));
+        AñadirAOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/orden.png"))); // NOI18N
+        AñadirAOrden.setText("Modificar Producto");
+        AñadirAOrden.setToolTipText("");
+        AñadirAOrden.setBorder(null);
+        AñadirAOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AñadirAOrdenActionPerformed(evt);
+            }
+        });
+        MenuClickProductos.add(AñadirAOrden);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -58,31 +85,113 @@ public class UI extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ProductosLB.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
+        ProductosLB.setForeground(new java.awt.Color(60, 38, 27));
+        ProductosLB.setText("Contenido de Orden");
+        getContentPane().add(ProductosLB, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 240, 30));
+
+        FilasOrdenes.setBackground(new java.awt.Color(60, 38, 27));
+        FilasOrdenes.setForeground(new java.awt.Color(60, 38, 27));
+        FilasOrdenes.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 12)); // NOI18N
+
+        TablaFilasOrdenes.setAutoCreateRowSorter(true);
+        TablaFilasOrdenes.setBackground(new java.awt.Color(60, 38, 27));
+        TablaFilasOrdenes.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
+        TablaFilasOrdenes.setForeground(new java.awt.Color(255, 255, 255));
+        TablaFilasOrdenes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre del Producto", "Precio", "Descripción"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaFilasOrdenes.setGridColor(new java.awt.Color(60, 38, 27));
+        TablaFilasOrdenes.setSelectionBackground(new java.awt.Color(78, 182, 172));
+        TablaFilasOrdenes.setSelectionForeground(new java.awt.Color(60, 38, 27));
+        TablaFilasOrdenes.getTableHeader().setResizingAllowed(false);
+        TablaFilasOrdenes.getTableHeader().setReorderingAllowed(false);
+        FilasOrdenes.setViewportView(TablaFilasOrdenes);
+        if (TablaFilasOrdenes.getColumnModel().getColumnCount() > 0) {
+            TablaFilasOrdenes.getColumnModel().getColumn(0).setResizable(false);
+            TablaFilasOrdenes.getColumnModel().getColumn(1).setResizable(false);
+            TablaFilasOrdenes.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        getContentPane().add(FilasOrdenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, 470, 170));
+
         AñadirProducto.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         AñadirProducto.setForeground(new java.awt.Color(255, 255, 255));
         AñadirProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Agregar.png"))); // NOI18N
-        AñadirProducto.setText("Productos");
+        AñadirProducto.setText("Crear Productos");
         AñadirProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AñadirProducto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AñadirProductoMouseClicked(evt);
             }
         });
-        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 120, -1));
+        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 160, -1));
 
         CancelarOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         CancelarOrden.setForeground(new java.awt.Color(255, 255, 255));
         CancelarOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
         CancelarOrden.setText("Cancelar Orden");
         CancelarOrden.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, 160, -1));
+        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 160, -1));
+
+        OrdenLB.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
+        OrdenLB.setForeground(new java.awt.Color(60, 38, 27));
+        OrdenLB.setText("Añadir Productos");
+        getContentPane().add(OrdenLB, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 210, 30));
 
         NuevaOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         NuevaOrden.setForeground(new java.awt.Color(255, 255, 255));
         NuevaOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/orden.png"))); // NOI18N
         NuevaOrden.setText("Nueva Orden");
         NuevaOrden.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
+        NuevaOrden.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NuevaOrdenMouseClicked(evt);
+            }
+        });
+        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, -1));
 
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.jpeg"))); // NOI18N
         getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 50));
@@ -165,7 +274,7 @@ public class UI extends javax.swing.JFrame {
             TablaProductos.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 610, 190));
+        getContentPane().add(Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 470, 160));
 
         Pedidos.setBackground(new java.awt.Color(60, 38, 27));
         Pedidos.setForeground(new java.awt.Color(60, 38, 27));
@@ -230,7 +339,12 @@ public class UI extends javax.swing.JFrame {
             TablaPedidos.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        getContentPane().add(Pedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 210, 380));
+        getContentPane().add(Pedidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 350, 380));
+
+        OrdenesLB.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
+        OrdenesLB.setForeground(new java.awt.Color(60, 38, 27));
+        OrdenesLB.setText("Ordenes");
+        getContentPane().add(OrdenesLB, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 100, 30));
 
         Cerrar.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
         Cerrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -258,7 +372,7 @@ public class UI extends javax.swing.JFrame {
         getContentPane().add(Barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
-        getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 450));
+        getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 480));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -279,11 +393,28 @@ public class UI extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         TablaProductos.setModel(PuntoDeVenta.consultarProductos());
+        TablaPedidos.setModel(PuntoDeVenta.consultarOrdenes());
     }//GEN-LAST:event_formWindowOpened
 
     private void BarraDeBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarraDeBusquedaKeyTyped
         TablaProductos.setModel(PuntoDeVenta.buscarProductos(BarraDeBusqueda.getText()));
     }//GEN-LAST:event_BarraDeBusquedaKeyTyped
+
+    private void NuevaOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NuevaOrdenMouseClicked
+        Orden orden = new Orden();
+        Fade.JFrameFadeIn(0f, 1f, 0.1f, 20, orden);
+        orden.setVisible(true);
+    }//GEN-LAST:event_NuevaOrdenMouseClicked
+
+    private void AñadirAOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirAOrdenActionPerformed
+        if(TablaProductos.getSelectedRow()== -1){
+            JOptionPane.showMessageDialog(null, "Seleccione una fila despues haga click derecho para modificar");
+        }
+        else{
+            
+        } 
+            
+    }//GEN-LAST:event_AñadirAOrdenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,18 +452,25 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AñadirAOrden;
     private javax.swing.JLabel AñadirProducto;
     private javax.swing.JLabel Barra;
     private javax.swing.JTextField BarraDeBusqueda;
     private javax.swing.JLabel Busqueda;
     private javax.swing.JLabel CancelarOrden;
     private javax.swing.JLabel Cerrar;
+    private javax.swing.JScrollPane FilasOrdenes;
     private javax.swing.JLabel Fondo;
     private javax.swing.JLabel Logo;
+    private javax.swing.JPopupMenu MenuClickProductos;
     private javax.swing.JLabel Minimizar;
     private javax.swing.JLabel NuevaOrden;
+    private javax.swing.JLabel OrdenLB;
+    private javax.swing.JLabel OrdenesLB;
     private javax.swing.JScrollPane Pedidos;
     private javax.swing.JScrollPane Productos;
+    private javax.swing.JLabel ProductosLB;
+    public static javax.swing.JTable TablaFilasOrdenes;
     private javax.swing.JTable TablaPedidos;
     public static javax.swing.JTable TablaProductos;
     // End of variables declaration//GEN-END:variables

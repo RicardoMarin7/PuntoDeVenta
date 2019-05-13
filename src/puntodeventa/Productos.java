@@ -379,7 +379,16 @@ public class Productos extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Seleccione una fila despues haga click derecho para eliminar");
        }
        else{
-            System.out.println(JOptionPane.showConfirmDialog(this,"Seguro que desea eliminar el producto"+TablaProductos.getSelectedRow()));
+            if(JOptionPane.showConfirmDialog(this,"Seguro que desea eliminar el producto:"+
+                    TablaProductos.getModel().getValueAt(TablaProductos.getSelectedRow(),0)) == 0){
+                    if(PuntoDeVenta.borrarProducto(String.valueOf(TablaProductos.getModel().getValueAt(TablaProductos.getSelectedRow(),0)))){
+                        JOptionPane.showMessageDialog(this, "El producto se ha borrado con éxito");
+                        TablaProductos.setModel(PuntoDeVenta.consultarProductos());
+                        UI.TablaProductos.setModel(PuntoDeVenta.consultarProductos());
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "El producto no se ha podido borrar");
+            }
            
        }
     }//GEN-LAST:event_BorrarProductoActionPerformed

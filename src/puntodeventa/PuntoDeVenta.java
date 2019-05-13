@@ -178,7 +178,7 @@ public class PuntoDeVenta {
     
     public static boolean borrarProducto(String ID) {
         boolean update = false;
-        sql = "DELETE FROM `productos` WHERE `productos`.`ID_Producto` = "+ID;
+        sql = "DELETE FROM `productos` WHERE `productos`.`ID_Producto` = '"+ID+"'";
         try{
           PreparedStatement us = conexion.prepareStatement(sql);
           us.executeUpdate();
@@ -190,5 +190,53 @@ public class PuntoDeVenta {
         }
         return update;
     }
+    
+    public static boolean crearOrden(String nombre){
+        boolean create=false;
+        sql = "INSERT INTO `ordenes` (`ID_orden`, `Nombre_cliente`, `Fecha_orden`, `Pagado`) VALUES (NULL, '"+nombre+"', CURRENT_TIMESTAMP, '0')";
+        try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            us.executeUpdate();
+            create=true;
+         }catch(SQLException e){
+             JOptionPane.showMessageDialog(null, e);
+             create=false;
+         }
         
+        return create;
+    }
+    
+    public static TableModel consultarOrdenes(){
+        String[] columna = { "ID","Nombre", "Fecha","Pagado"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }          
+        };
+        try{
+            Object[] datos = new Object[4];
+            sql = "SELECT * FROM `ordenes`";
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            Date fecha = new Date(0);
+            Timestamp ts = new Timestamp(fecha.getTime());
+            
+            while (result.next()){
+                for (int i = 0; i < 4; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return modelo;
+    }
+    
+    
 }
