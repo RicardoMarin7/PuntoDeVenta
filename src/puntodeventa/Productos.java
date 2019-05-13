@@ -380,7 +380,7 @@ public class Productos extends javax.swing.JFrame {
        }
        else{
             if(JOptionPane.showConfirmDialog(this,"Seguro que desea eliminar el producto:"+
-                    TablaProductos.getModel().getValueAt(TablaProductos.getSelectedRow(),0)) == 0){
+                    TablaProductos.getModel().getValueAt(TablaProductos.getSelectedRow(),0)+"?") == 0){
                     if(PuntoDeVenta.borrarProducto(String.valueOf(TablaProductos.getModel().getValueAt(TablaProductos.getSelectedRow(),0)))){
                         JOptionPane.showMessageDialog(this, "El producto se ha borrado con éxito");
                         TablaProductos.setModel(PuntoDeVenta.consultarProductos());

@@ -74,7 +74,7 @@ public class PuntoDeVenta {
 
      }
      
-     public boolean isNumeric(String cadena){
+     public static boolean isNumeric(String cadena){
          boolean numeric = false;
          try{
              Integer.parseInt(cadena);
@@ -133,7 +133,7 @@ public class PuntoDeVenta {
 
     public boolean modificarProducto(String ID,String Nombre, String Precio) {
         boolean update = false;
-       sql = "UPDATE `productos` SET `Nombre_Producto` = '"+Nombre+"', `Precio` = '"+Precio+"' WHERE `productos`.`ID_Producto` ="+ID;
+       sql = "UPDATE `productos` SET `Nombre_Producto` = '"+Nombre+"', `Precio_producto` = '"+Precio+"' WHERE `productos`.`ID_Producto` ="+ID;
         try{
           PreparedStatement us = conexion.prepareStatement(sql);
           us.executeUpdate();
@@ -193,7 +193,7 @@ public class PuntoDeVenta {
     
     public static boolean crearOrden(String nombre){
         boolean create=false;
-        sql = "INSERT INTO `ordenes` (`ID_orden`, `Nombre_cliente`, `Fecha_orden`, `Pagado`) VALUES (NULL, '"+nombre+"', CURRENT_TIMESTAMP, '0')";
+        sql = "INSERT INTO `ordenes` (`ID_orden`, `Nombre_cliente`, `Fecha_orden`, `Pagado`) VALUES (NULL, '"+nombre+"', now(), '0')";
         try{
             PreparedStatement us = conexion.prepareStatement(sql);
             us.executeUpdate();
@@ -238,5 +238,98 @@ public class PuntoDeVenta {
         return modelo;
     }
     
+    public static TableModel consultarOrdenesHoy(){
+        String[] columna = { "ID","Nombre", "Fecha","Pagado"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }          
+        };
+        try{
+            Object[] datos = new Object[4];
+            sql = "SELECT * FROM `ordenes` WHERE `Fecha_orden` = (SELECT MAX(`Fecha_orden`) FROM `ordenes`)";
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            Date fecha = new Date(0);
+            Timestamp ts = new Timestamp(fecha.getTime());
+            
+            while (result.next()){
+                for (int i = 0; i < 4; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return modelo;
+    }
+    
+    public static boolean borrarOrden(String ID) {
+        boolean update = false;
+        sql = "DELETE FROM `ordenes` WHERE `ordenes`.`ID_orden` = '"+ID+"'";
+        try{
+          PreparedStatement us = conexion.prepareStatement(sql);
+          us.executeUpdate();
+          update = true;
+        }
+        catch (SQLException e){
+          JOptionPane.showMessageDialog(null, e);
+          update = false;
+        }
+        return update;
+    }
+    
+    public static boolean añadirAOrden(String IDProducto,String IDOrden,String Cantidad){
+        boolean add = false;
+        sql = "INSERT INTO `filas_orden` (`ID_orden`, `ID_Producto`, `Cantidad`) VALUES ('"+IDOrden+"','"+IDProducto+"', '"+Cantidad+"')";
+        try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            us.executeUpdate();
+            add=true;
+         }catch(SQLException e){
+             JOptionPane.showMessageDialog(null, e);
+             add=false;
+         }
+        
+        return add;
+        
+    }
+    
+    public static TableModel consultarFilasOrden(String ID){
+        String[] columna = { "ID Fila","Nombre Orden", "Nombre Producto","Cantidad"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+            return false;
+        }          
+        };
+        try{
+            Object[] datos = new Object[4];
+            sql = "SELECT filas_orden.ID_FILA,ordenes.Nombre_cliente,productos.Nombre_Producto,filas_orden.Cantidad FROM ((filas_orden INNER JOIN ordenes ON filas_orden.ID_orden = ordenes.ID_orden) INNER JOIN productos ON filas_orden.ID_Producto = productos.ID_Producto) WHERE filas_orden.ID_orden ="+ID;
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            
+            while (result.next()){
+                for (int i = 0; i < 4; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        
+        return modelo;
+    }
     
 }

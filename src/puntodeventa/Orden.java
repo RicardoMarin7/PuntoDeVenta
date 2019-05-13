@@ -110,6 +110,7 @@ public class Orden extends javax.swing.JFrame {
             if(PuntoDeVenta.crearOrden(NombreOrden.getText())){
                 JOptionPane.showMessageDialog(this, "Orden creada con éxito");
                 NombreOrden.setText("");
+                UI.TablaPedidos.setModel(PuntoDeVenta.consultarOrdenesHoy());
             }
         }
     }//GEN-LAST:event_CrearActionPerformed
