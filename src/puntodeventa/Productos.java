@@ -303,12 +303,13 @@ public class Productos extends javax.swing.JFrame {
         }
         
         else{
-            if(obj.isNumeric(PrecioProducto.getText())){
+            if(PuntoDeVenta.isNumeric(PrecioProducto.getText())){
                 if(obj.añadirProducto(NombreProducto.getText(), PrecioProducto.getText())){
                     JOptionPane.showMessageDialog(null, "Producto añadido con éxito.");
                     NombreProducto.setText("");
                     PrecioProducto.setText("");
                     TablaProductos.setModel(PuntoDeVenta.consultarProductos());
+                    UI.TablaProductos.setModel(PuntoDeVenta.consultarProductos());
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Error al añadir el producto");

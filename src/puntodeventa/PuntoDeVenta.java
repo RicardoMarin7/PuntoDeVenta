@@ -28,6 +28,24 @@ public class PuntoDeVenta {
         return isError;
     }
      
+     public static String getRole(int id_sesion){
+         String role="";
+         sql = "SELECT roles.role_name FROM (usuarios INNER JOIN roles ON roles.ID_Role = usuarios.ID_Usuario) WHERE usuarios.ID_Usuario='"+id_sesion+"'";
+        try{
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            while (result.next()){
+                role = result.getString(1);
+            }
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }              
+         
+         return role;
+     }
+     
      public boolean iniciarSesion(String User, String Password){
         String user="",pass=""; boolean login = false;
         
@@ -88,7 +106,7 @@ public class PuntoDeVenta {
      
      public boolean añadirProducto(String Nombre,String Precio){
          boolean add=false;
-         sql = "INSERT INTO `productos` (`ID_Producto`, `Nombre_Producto`, `Precio`, `Descripcion`) VALUES (NULL,'"
+         sql = "INSERT INTO `productos` (`ID_Producto`, `Nombre_Producto`, `Precio_producto`) VALUES (NULL,'"
                  +Nombre+"','"+Precio+"')";
          try{
             PreparedStatement us = conexion.prepareStatement(sql);
@@ -271,17 +289,34 @@ public class PuntoDeVenta {
     }
     
     public static boolean borrarOrden(String ID) {
-        boolean update = false;
-        sql = "DELETE FROM `ordenes` WHERE `ordenes`.`ID_orden` = '"+ID+"'";
+        boolean update = false,error=true;
+        
+        sql = "DELETE FROM `filas_orden` WHERE `filas_orden`.`ID_orden` = '"+ID+"'";
         try{
           PreparedStatement us = conexion.prepareStatement(sql);
           us.executeUpdate();
           update = true;
+          error = false;
         }
         catch (SQLException e){
           JOptionPane.showMessageDialog(null, e);
           update = false;
+          error = true;
         }
+        
+        if(!error){
+           sql = "DELETE FROM `ordenes` WHERE `ordenes`.`ID_orden` = '"+ID+"'";
+            try{
+                PreparedStatement us = conexion.prepareStatement(sql);
+                us.executeUpdate();
+                update = true;
+            }
+            catch (SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+                update = false;
+            } 
+        }
+        
         return update;
     }
     
@@ -327,9 +362,76 @@ public class PuntoDeVenta {
         catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
-        
+        return modelo;
+    }
+    
+    public static TableModel getOrdenACobrar(String ID){
+        String[] columna = { "Nombre Orden", "Nombre Producto","Cantidad","Precio Unit"};
+        DefaultTableModel modelo = new DefaultTableModel((Object[][])null, columna);
+        try{
+            Object[] datos = new Object[4];
+            sql = "SELECT ordenes.Nombre_cliente,productos.Nombre_Producto,filas_orden.Cantidad,productos.Precio_producto FROM ((filas_orden INNER JOIN ordenes ON filas_orden.ID_orden = ordenes.ID_orden) INNER JOIN productos ON filas_orden.ID_Producto = productos.ID_Producto) WHERE filas_orden.ID_orden ="+ID;
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            
+            while (result.next()){
+                for (int i = 0; i < 4; i++) {
+                    datos[i] = result.getObject(i + 1);
+                    
+                }
+                modelo.addRow(datos);
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
         
         return modelo;
     }
     
+    public static int getTotal(String ID_Orden){
+        int total=0,cantidad,preciounit,aux;
+        try{
+            Object[] datos = new Object[4];
+            sql = "SELECT filas_orden.Cantidad,productos.Precio_producto FROM ((filas_orden INNER JOIN ordenes ON filas_orden.ID_orden = ordenes.ID_orden) INNER JOIN productos ON filas_orden.ID_Producto = productos.ID_Producto) WHERE filas_orden.ID_orden ="+ID_Orden;
+            PreparedStatement us = conexion.prepareStatement(sql);
+            ResultSet result = us.executeQuery();
+            
+            while (result.next()){
+                for (int i = 0; i < 2; i++) {
+                    datos[i] = result.getObject(i + 1);
+                }
+                cantidad = Integer.valueOf(String.valueOf(datos[0]));
+                preciounit = Integer.valueOf(String.valueOf(datos[1]));
+                aux = cantidad * preciounit;
+                total+= aux;
+            }
+            
+            result.close();
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        return total;
+    }
+    
+    
+    public static boolean cobrarOrden(String ID_orden){
+        int total = getTotal(ID_orden);
+        boolean update = false;
+       sql = "UPDATE `ordenes` SET `Pagado` = '"+1+"', `Total` = '+"+total+"' WHERE `ordenes`.`ID_orden` = "+ID_orden;
+        try{
+          PreparedStatement us = conexion.prepareStatement(sql);
+          us.executeUpdate();
+          update = true;
+        }
+        catch (SQLException e){
+          JOptionPane.showMessageDialog(null, e);
+          update = false;
+        }
+        return update;
+    }
 }

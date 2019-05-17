@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class UI extends javax.swing.JFrame {
     int id_sesion;
+    String role;
 
     /**
      * Creates new form UI
@@ -97,7 +98,7 @@ public class UI extends javax.swing.JFrame {
                 RegistroMouseClicked(evt);
             }
         });
-        getContentPane().add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 100, -1));
+        getContentPane().add(Registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, 110, -1));
 
         CobrarOrden.setBackground(new java.awt.Color(255, 255, 255));
         CobrarOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 14)); // NOI18N
@@ -194,7 +195,7 @@ public class UI extends javax.swing.JFrame {
                 AñadirProductoMouseClicked(evt);
             }
         });
-        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 160, -1));
+        getContentPane().add(AñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 180, -1));
 
         CancelarOrden.setFont(new java.awt.Font("Leelawadee UI Semilight", 0, 18)); // NOI18N
         CancelarOrden.setForeground(new java.awt.Color(255, 255, 255));
@@ -206,7 +207,7 @@ public class UI extends javax.swing.JFrame {
                 CancelarOrdenMouseClicked(evt);
             }
         });
-        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 160, -1));
+        getContentPane().add(CancelarOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 170, -1));
 
         OrdenLB.setFont(new java.awt.Font("Leelawadee UI", 1, 24)); // NOI18N
         OrdenLB.setForeground(new java.awt.Color(60, 38, 27));
@@ -223,7 +224,7 @@ public class UI extends javax.swing.JFrame {
                 NuevaOrdenMouseClicked(evt);
             }
         });
-        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, -1));
+        getContentPane().add(NuevaOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 10, 150, -1));
 
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.jpeg"))); // NOI18N
         getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 50));
@@ -432,6 +433,10 @@ public class UI extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         TablaProductos.setModel(PuntoDeVenta.consultarProductos());
         TablaPedidos.setModel(PuntoDeVenta.consultarOrdenesHoy());
+        if(PuntoDeVenta.getRole(id_sesion).equals("user")){
+            AñadirProducto.setVisible(false);
+            Registro.setVisible(false);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void BarraDeBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarraDeBusquedaKeyTyped
@@ -467,7 +472,9 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_AñadirAOrdenActionPerformed
 
     private void RegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegistroMouseClicked
-        // TODO add your handling code here:
+        Ordenes ordenes = new Ordenes();
+        Fade.JFrameFadeIn(0f, 1f, 0.1f, 20, ordenes);
+        ordenes.setVisible(true);
     }//GEN-LAST:event_RegistroMouseClicked
 
     private void CancelarOrdenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelarOrdenMouseClicked
@@ -488,14 +495,20 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarOrdenMouseClicked
 
     private void CobrarOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CobrarOrdenActionPerformed
+        Cobrar cobrar = new Cobrar();
         if(TablaPedidos.getSelectedRow()== -1){
             JOptionPane.showMessageDialog(null, "Seleccione una fila en la tabla de Ordenes");
         }
         else{
-            if(JOptionPane.showConfirmDialog(this,"Cobrar la orden a nombre de:"+TablaPedidos.getModel().getValueAt(TablaPedidos.getSelectedRow(),1)+"?") == 0){
-                
-                
-                
+            if(String.valueOf(TablaPedidos.getModel().getValueAt(TablaPedidos.getSelectedRow(),0)).equals("true")){
+               if(JOptionPane.showConfirmDialog(this,"Cobrar la orden a nombre de:"+TablaPedidos.getModel().getValueAt(TablaPedidos.getSelectedRow(),1)+"?") == 0){
+                   Fade.JFrameFadeIn(0f, 1f, 0.1f, 20, cobrar);
+                   cobrar.setVisible(true);
+                   cobrar.id_orden = String.valueOf(TablaPedidos.getModel().getValueAt(TablaPedidos.getSelectedRow(),0));                               
+                } 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Esta orden ya está cobrada");
             }
         }
     }//GEN-LAST:event_CobrarOrdenActionPerformed
@@ -540,8 +553,6 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Añadir;
-    private javax.swing.JButton Añadir1;
     private javax.swing.JMenuItem AñadirAOrden;
     private javax.swing.JLabel AñadirProducto;
     private javax.swing.JLabel Barra;
@@ -549,7 +560,7 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel Busqueda;
     private javax.swing.JLabel CancelarOrden;
     private javax.swing.JLabel Cerrar;
-    private javax.swing.JButton CobrarOrden;
+    public static javax.swing.JButton CobrarOrden;
     private javax.swing.JScrollPane FilasOrdenes;
     private javax.swing.JLabel Fondo;
     private javax.swing.JLabel Logo;
